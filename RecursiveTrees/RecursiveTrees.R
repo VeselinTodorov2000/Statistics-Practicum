@@ -1,9 +1,10 @@
 # Fractal project - Recursive trees. Creator: Veselin Todorov 2021
-
+rm(list = ls())
 #background creation
-background <- function(xLimits, yLimits, color = "black")
+background <- function(xLimits, yLimits, color)
 {
-  plot(1, type="n", bty="n", xlim = xLimits, ylim = yLimits) #set black background with no plot type and limits
+  par(mar=rep(1,4), bg=color)
+  plot(1, type="n", bty="n", col = "black", bg = color, xlab= "", ylab = "",xlim = xLimits, ylim = yLimits) #set black background with no plot type and limits
 }
 
 #function to draw a line
@@ -74,8 +75,8 @@ tree <- function(line0, angle=30, reduce=.7, randomness=0) {
 Z <- c(0,0) #point of center
 A <- c(1e-9,5) #direction A
 B <- c(5,-1e-9) #direction B
+background(xLimits = c(-20,20), yLimits = c(-20, 20), color = "black")
 fractal <- matrix(c(Z,A,Z,B,Z,-A,Z,-B), nrow=4, byrow=T) #first fractal iteration
-background(xLimits=c(-20,20), yLimits=c(-20,20)) #create background
 drawObject(fractal) #draw E1
 for(i in 1:11) {
   fractal <- iterate(fractal, ifun=tree, angle=29, reduce=.75) #change level of fractal
