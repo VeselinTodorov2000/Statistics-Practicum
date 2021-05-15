@@ -32,7 +32,7 @@ utf8_print(answers$Question1)
 
 table_q1 <- table(answers$Question1)
 table_q1
-
+prop.table(table_q1)
 #Да    Не    Не съм решил 
 #38    3     2
 
@@ -49,7 +49,7 @@ shapiro.test(table_q1)
 
 ##################################################################################################################################
 
-#Въпрос 2: Колко процента смятате че избрания на 04.04.2021 парламент е достатъчно добър, за да съществува? (0-100) - Непрекъсната променлива
+#Въпрос 2: Колко процента смятате че избрания на 04.04.2021 парламент е достатъчно добър, за да съществува? (0-100) - Дискретна променлива
 percent_acceptance_q2 <- c(0, 0, 0, 0, 0, 0, 0, 0, 0,
                            50, 50, 50, 50, 50, 30, 30, 30, 30, 30, 40, 40, 40, 40, 20, 20, 20,
                            10, 10, 1, 1, 69, 69, 60, 49, 40, 50, 80, 70, 100, 12, 33, 63, 51)
@@ -74,6 +74,8 @@ summary(percent_acceptance_q2)
 quantile(percent_acceptance_q2, prob = seq(0.1, 0.9, by = 0.1))
 # 10%  20%  30%  40%  50%  60%  70%  80%  90% 
 # 0.0  0.4 11.2 28.0 30.0 40.0 50.0 50.0 67.8 
+
+
 # Вариация (дисперсия) на разпределението
 
 range(percent_acceptance_q2)   # range - показва най - голямата и най - малката стойност
@@ -86,8 +88,8 @@ fivenum(percent_acceptance_q2)
 # [1]   0.0   5.5  30.0  50.0 100.0
 
 # Графично представяне
-hist(table_q2, main = "Колко процента смятате че избрания на 04.04.2021 парламент е достатъчно добър, за да съществува? (0-100)", xlab = "Проценти /Нормално разпределение/",
-     ylab = "Брой хора /Честота/", col = "purple")
+hist(table_q2, main = "Колко процента смятате че избрания на 04.04.2021 парламент е достатъчно добър, за да съществува? (0-100)", 
+     xlab = "Проценти /Нормално разпределение/",ylab = "Брой хора /Честота/", col = "purple")
 
 # Проверка за нормално разпределение
 d1 <- rnorm(n = 10^2, mean = mean(percent_acceptance_q2), sd = sd(percent_acceptance_q2))
@@ -106,7 +108,7 @@ shapiro.test(table_q2)
 ##################################################################################################################################
 
 
-#Въпрос 3: Колко процента имате доверие на сегашния парламент? (0-100) - Непрекъсната променлива
+#Въпрос 3: Колко процента имате доверие на сегашния парламент? (0-100) - Дискретна променлива
 percent_acceptance_q3 <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                            1, 10, 10, 10, 10, 20, 20, 20, 20, 20, 20, 20,
                            25, 30, 30, 33, 40, 40, 40, 47, 50, 50, 50, 50, 50,
@@ -145,7 +147,7 @@ fivenum(percent_acceptance_q3)
 
 # Графично представяне
 hist(table_q3, main = "Колко процента имате доверие на сегашния парламент? (0-100)", xlab = "Проценти /Нормално разпределение/",
-     ylab = "Брой хора /Честота/", col = "blue", xlim = c(0,15))
+     ylab = "Брой хора /Честота/", col = "blue", xlim = c(0,10))
 
 # Проверка за нормално разпределение
 d1 <- rnorm(n = 10^2, mean = mean(percent_acceptance_q3), sd = sd(percent_acceptance_q3))
@@ -164,7 +166,7 @@ shapiro.test(table_q3)
 ##################################################################################################################################
 
 
-#Въпрос 4: Колко процента имате доверие на президентът Румен Радев? (0-100) - Непрекъсната променлива
+#Въпрос 4: Колко процента имате доверие на президентът Румен Радев? (0-100) - Дискретна променлива
 percent_acceptance_q4 <- c(0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10,
                            20, 20, 25, 30, 40, 40, 40, 40, 50, 50, 50, 51,
                            60, 60, 65, 65, 70, 70, 70, 70, 70, 75, 80, 80, 80,
@@ -236,8 +238,8 @@ table_q5
 #28    12    3
 
 # Графично представяне
-barplot(round(prop.table(table_q5)*100, 2), col = c("green", "red", "red"), main = "Смятате ли, че трябва да се увеличи броят на секциите за гласуване в чужбина?", xlab = "Отговор",
-        ylab = "Проценти", ylim = c(0, 100))
+barplot(round(prop.table(table_q5)*100, 2), col = c("green", "red", "red"), main = "Смятате ли, че трябва да се увеличи броят на секциите за гласуване в чужбина?", 
+        xlab = "Отговор", ylab = "Проценти", ylim = c(0, 100))
 
 #Тест за нормално разпределение
 shapiro.test(table_q5)
@@ -256,4 +258,67 @@ shapiro.test(table_q5)
 question_1 <- c(rep("Да", 38), rep("Не", 3), rep("Не съм решил", 2))
 sample_q2 <- sample(x = percent_acceptance_q2)
 boxplot(sample_q2 ~ question_1)
+
+##################################################################################################################################
+
+#Числова vs Числова
+#2. Въпрос 2 - Въпрос 3
+
+# Корелационен анализ
+rho <- round(cor(percent_acceptance_q2, percent_acceptance_q3), 3) #коефициент на корелация
+par(mfrow = c(1, 1))
+plot(percent_acceptance_q2, percent_acceptance_q3, main = "Correlation analysis")
+abline(a = 4, b = 3, col = "red", lwd = 2)
+cor(percent_acceptance_q2, percent_acceptance_q3)
+#[1] 0.9675945
+
+cor.test(active_hours_q3, depend_percent_q8, method = "spearman")
+
+#3. Въпрос 3 - Въпрос 4
+# Линейна регресия
+DF <- data.frame(percent_acceptance_q3, percent_acceptance_q4)
+model <- lm(percent_acceptance_q3~percent_acceptance_q4)
+model
+#Call:
+#        lm(formula = percent_acceptance_q3 ~ percent_acceptance_q4)
+#
+#Coefficients:
+#        (Intercept)  percent_acceptance_q4  
+#-4.4510                 0.6373  
+
+summary(model)
+
+#Call:
+#        lm(formula = percent_acceptance_q3 ~ percent_acceptance_q4)
+#
+#Residuals:
+#        Min       1Q   Median       3Q      Max 
+#-11.0425  -3.4427  -0.1627   4.4510   9.8373 
+#
+#Coefficients:
+#        Estimate Std. Error t value Pr(>|t|)    
+#(Intercept)           -4.45103    1.37742  -3.231  0.00243 ** 
+#        percent_acceptance_q4  0.63734    0.02492  25.571  < 2e-16 ***
+#        ---
+#        Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#
+#Residual standard error: 5.445 on 41 degrees of freedom
+#Multiple R-squared:  0.941,	Adjusted R-squared:  0.9396 
+#F-statistic: 653.9 on 1 and 41 DF,  p-value: < 2.2e-16
+
+
+resid(lm(percent_acceptance_q3~percent_acceptance_q4))
+
+par(mfrow = c(1, 1))
+plot(lm(percent_acceptance_q3~percent_acceptance_q4))
+
+# Липса на автокорелация на грешките
+install.packages("lmtest")
+library(lmtest)
+dwtest(model)
+#Durbin-Watson test
+
+#data:  model
+#DW = 0.51514, p-value = 4.928e-10
+#alternative hypothesis: true autocorrelation is greater than 0
 
