@@ -268,11 +268,20 @@ boxplot(sample_q2 ~ question_1)
 rho <- round(cor(percent_acceptance_q2, percent_acceptance_q3), 3) #коефициент на корелация
 par(mfrow = c(1, 1))
 plot(percent_acceptance_q2, percent_acceptance_q3, main = "Correlation analysis")
-abline(a = 4, b = 3, col = "red", lwd = 2)
+abline(a = 0, b = 0.7, col = "red", lwd = 2)
 cor(percent_acceptance_q2, percent_acceptance_q3)
 #[1] 0.9675945
 
-cor.test(active_hours_q3, depend_percent_q8, method = "spearman")
+cor.test(percent_acceptance_q2, percent_acceptance_q3, method = "spearman")
+#Spearman's rank correlation rho
+
+#data:  percent_acceptance_q2 and percent_acceptance_q3
+#S = 244.52, p-value < 2.2e-16
+#alternative hypothesis: true rho is not equal to 0
+#sample estimates:
+#      rho 
+#0.9815369 
+
 
 #3. Въпрос 3 - Въпрос 4
 # Линейна регресия
